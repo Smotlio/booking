@@ -9,25 +9,50 @@
 
 namespace Application;
 
+use Application\Model\User;
+use Application\Model\UserTable;
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
-class Module
-{
-    public function onBootstrap(MvcEvent $e)
-    {
-        $eventManager        = $e->getApplication()->getEventManager();
+class Module {
+
+    public function onBootstrap(MvcEvent $e) {
+
+        $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
     }
 
-    public function getConfig()
-    {
+    public function getConfig() {
+
         return include __DIR__ . '/config/module.config.php';
     }
 
-    public function getAutoloaderConfig()
-    {
+    public function getServiceConfig() {
+
+        return array(
+            'factories' => array(
+                'Application\Model\UserTable' => function ($sm) {
+
+                    $tableGateway = $sm->get('UserTableGateway');
+                    $table = new UserTable($tableGateway);
+                    return $table;
+                },
+                'UserTableGateway' => function ($sm) {
+
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new User());
+                    return new TableGateway('user', $dbAdapter, null, $resultSetPrototype);
+                },
+            ),
+        );
+    }
+
+    public function getAutoloaderConfig() {
+
         return array(
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(

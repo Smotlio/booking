@@ -10,27 +10,17 @@
 return array(
     'router' => array(
         'routes' => array(
-            'home' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/',
-                    'defaults' => array(
-                        'controller' => 'Application\Controller\Index',
-                        'action'     => 'index',
-                    ),
-                ),
-            ),
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
             // using the path /application/:controller/:action
-            'application' => array(
+            'auth' => array(
                 'type'    => 'Literal',
                 'options' => array(
-                    'route'    => '/application',
+                    'route'    => '/auth',
                     'defaults' => array(
-                        '__NAMESPACE__' => 'Application\Controller',
-                        'controller'    => 'Index',
+                        '__NAMESPACE__' => 'Auth\Controller',
+                        'controller'    => 'Auth',
                         'action'        => 'index',
                     ),
                 ),
@@ -40,6 +30,58 @@ return array(
                         'type'    => 'Segment',
                         'options' => array(
                             'route'    => '/[:controller[/:action]]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'login' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/auth',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Auth\Controller',
+                        'controller'    => 'Auth',
+                        'action'        => 'login',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'process' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/[:action]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'success' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/success',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Auth\Controller',
+                        'controller'    => 'Success',
+                        'action'        => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'default' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/[:action]',
                             'constraints' => array(
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
@@ -73,7 +115,8 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController'
+            'Auth\Controller\Auth' => 'Auth\Controller\AuthController',
+            'Auth\Controller\Success' => 'Auth\Controller\SuccessController'
         ),
     ),
     'view_manager' => array(
@@ -84,10 +127,10 @@ return array(
         'exception_template'       => 'error/index',
         'template_map' => array(
 //            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'layout/layout'           => __DIR__ . '/../../layout/layout.phtml',
-            'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
-            'error/404'               => __DIR__ . '/../view/error/404.phtml',
-            'error/index'             => __DIR__ . '/../view/error/index.phtml',
+            'layout/layout'           => __DIR__ . '/../../view/layout/layout.phtml',
+            'auth/auth/index'          => __DIR__ . '/../view/auth/auth/index.phtml',
+            'error/404'               => __DIR__ . '/../../view/error/404.phtml',
+            'error/index'             => __DIR__ . '/../../view/error/index.phtml',
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
