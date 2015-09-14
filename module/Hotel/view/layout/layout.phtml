@@ -48,6 +48,14 @@
             <?php echo $this->content; ?>
             <hr>
             <footer>
+<?php
+//if ($user = $this->identity()) {
+//    print_r($user);
+//    echo 'Logged in as ' . $this->escapeHtml($user->getEmail());
+//} else {
+//    echo 'Not logged in';
+//}
+//?>
                 <p>&copy; 2005 - <?php echo date('Y') ?> by Zend Technologies Ltd. <?php echo $this->translate('All rights reserved.') ?></p>
             </footer>
         </div> <!-- /container -->

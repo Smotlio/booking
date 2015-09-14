@@ -3,10 +3,10 @@ return array(
 
     'router' => array(
         'routes' => array(
-            'home' => array(
+            'htl_home' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/',
+                    'route'    => '/hotel',
                     'defaults' => array(
                         'controller' => 'Hotel\Controller\Index',
                         'action'     => 'index',
@@ -17,10 +17,10 @@ return array(
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
             // using the path /application/:controller/:action
-            'search' => array(
+            'htl_search' => array(
                 'type'    => 'Literal',
                 'options' => array(
-                    'route'    => '/search',
+                    'route'    => '/hotel/search',
                     'defaults' => array(
                         'controller' => 'Hotel\Controller\Index',
                         'action'        => 'index',

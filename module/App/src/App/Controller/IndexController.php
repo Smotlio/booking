@@ -15,7 +15,7 @@ use Zend\View\Model\ViewModel;
 class IndexController extends AbstractActionController {
 
     public function indexAction() {
-
+//        print_r($this->getServiceLocator()->get('AuthService')->getStorage()->read()); die;
         return new ViewModel();
     }
 
