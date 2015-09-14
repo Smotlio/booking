@@ -7,8 +7,9 @@
  */
 return array(
     'modules' => array(
-        'Application',
-        'Auth'
+        'App',
+        'Admin',
+        'Hotel'
     ),
     'module_listener_options' => array(
         'module_paths' => array(

@@ -25,4 +25,10 @@ return array(
             => 'Zend\Db\Adapter\AdapterServiceFactory',
         ),
     ),
+//    'session' => array(
+//        'cookie_lifetime' => 1, //SEE ME
+//        'remember_me_seconds' => 1, //SEE ME
+//        'use_cookies' => true,
+//        'cookie_httponly' => true,
+//    ),
 );
