@@ -19,5 +19,6 @@ return array(
         'config_glob_paths' => array(
             'config/autoload/{,*.}{global,local}.php'
         )
-    )
+    ),
+
 );

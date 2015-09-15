@@ -12,6 +12,7 @@ namespace App\Controller;
 use App\Model\User;
 use App\Model\UserTable;
 use App\Form\AuthForm;
+use Zend\Authentication\AuthenticationService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -46,6 +47,9 @@ class AuthController extends AbstractActionController {
         return $this->storage;
     }
 
+    /**
+     * @return AuthenticationService
+     */
     public function getAuthService() {
 
         if(!$this->authService) {
@@ -88,6 +92,10 @@ class AuthController extends AbstractActionController {
             $form->setData($request->getPost());
 
             if($form->isValid()) {
+
+                $user = new User();
+                $user->exchangeArray($form->getData());
+
                 //check authentication...
                 $this->getAuthService()->getAdapter()
                     ->setIdentity($request->getPost('email'))
@@ -97,7 +105,7 @@ class AuthController extends AbstractActionController {
                 $authErrors = $authentication->getMessages();
 
                 if($authentication->isValid()) {
-
+//print_r($this->getAuthService()->getIdentity()); die;
                     //check if it has rememberMe :
                     if($request->getPost('rememberme') == 1) {
                         $this->getAuthStorage()
@@ -105,7 +113,7 @@ class AuthController extends AbstractActionController {
                         //set storage again
                         $this->getAuthService()->setStorage($this->getAuthStorage());
                     }
-                    $this->getAuthService()->getStorage()->write($request->getPost('email'));
+                    $this->getAuthService()->getStorage()->write($user);
 
                     $this->redirect()->toRoute(self::SUCCESS_URL);
                 }

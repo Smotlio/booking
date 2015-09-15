@@ -13,7 +13,7 @@ class User {
 
     public $id;
     public $email;
-    public $password;
+    private $password;
     public $rememberme = 0;
     public $active = 0;
 

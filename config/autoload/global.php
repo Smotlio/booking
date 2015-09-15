@@ -25,6 +25,26 @@ return array(
             => 'Zend\Db\Adapter\AdapterServiceFactory',
         ),
     ),
+
+    'view_manager' => array(
+        'display_not_found_reason' => true,
+        'display_exceptions'       => true,
+        'doctype'                  => 'HTML5',
+        'not_found_template'       => 'error/404',
+        'exception_template'       => 'error/index',
+        'template_map' => array(
+            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+            'hotel/layout'           => __DIR__ . '/../view/layout/hotel.phtml',
+            'error/404'               => __DIR__ . '/../view/error/404.phtml',
+            'error/index'             => __DIR__ . '/../view/error/index.phtml',
+        ),
+    ),
+//    //custom config for layout per module
+//    'module_layouts' => array(
+//        'App' => __DIR__ . '/../view/layout/layout.phtml',
+//        'Hotel' => __DIR__ . '/../view/layout/hotel.phtml',
+//    ),
+
 //    'session' => array(
 //        'cookie_lifetime' => 1, //SEE ME
 //        'remember_me_seconds' => 1, //SEE ME
