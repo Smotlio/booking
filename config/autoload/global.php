@@ -21,8 +21,7 @@ return array(
     ),
     'service_manager' => array(
         'factories' => array(
-            'Zend\Db\Adapter\Adapter'
-            => 'Zend\Db\Adapter\AdapterServiceFactory',
+            'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory',
         ),
     ),
 
@@ -34,21 +33,29 @@ return array(
         'exception_template'       => 'error/index',
         'template_map' => array(
             'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+            'app/layout'              => __DIR__ . '/../view/layout/app.phtml',
             'hotel/layout'           => __DIR__ . '/../view/layout/hotel.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
         ),
     ),
-//    //custom config for layout per module
-//    'module_layouts' => array(
-//        'App' => __DIR__ . '/../view/layout/layout.phtml',
-//        'Hotel' => __DIR__ . '/../view/layout/hotel.phtml',
-//    ),
 
-//    'session' => array(
-//        'cookie_lifetime' => 1, //SEE ME
-//        'remember_me_seconds' => 1, //SEE ME
-//        'use_cookies' => true,
-//        'cookie_httponly' => true,
-//    ),
+    'session' => array(
+        'config' => array(
+            'class' => 'Zend\Session\Config\SessionConfig',
+            'options' => array(
+                'name' => 'cookieName',
+                'cookie_httponly' => true,
+                'cookie_lifetime' => 36,
+                'gc_maxlifetime' => 36,
+                'remember_me_seconds' => 36,
+            ),
+            'authentication_expiration_time' => 5
+        ),
+        'validators' => array(
+            'Zend\Session\Validator\RemoteAddr',
+            'Zend\Session\Validator\HttpUserAgent',
+        ),
+    ),
+
 );

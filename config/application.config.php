@@ -8,8 +8,8 @@
 return array(
     'modules' => array(
         'App',
-        'Admin',
-        'Hotel'
+//        'Admin',
+//        'Hotel'
     ),
     'module_listener_options' => array(
         'module_paths' => array(

@@ -12,6 +12,7 @@ namespace App\Controller;
 use App\Model\User;
 use App\Model\UserTable;
 use App\Form\AuthForm;
+use App\Storage\Auth;
 use Zend\Authentication\AuthenticationService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -37,11 +38,14 @@ class AuthController extends AbstractActionController {
         return $this->userTable;
     }
 
+    /**
+     * @return Auth
+     */
     public function getAuthStorage() {
 
         if(!$this->storage) {
             $this->storage = $this->getServiceLocator()
-                ->get('AppStorageAuth');
+                ->get('AppAuthSessionStorage');
         }
 
         return $this->storage;
@@ -54,7 +58,7 @@ class AuthController extends AbstractActionController {
 
         if(!$this->authService) {
             $this->authService = $this->getServiceLocator()
-                ->get('AuthService');
+                ->get('AppAuthService');
         }
 
         return $this->authService;
@@ -114,6 +118,7 @@ class AuthController extends AbstractActionController {
                         $this->getAuthService()->setStorage($this->getAuthStorage());
                     }
                     $this->getAuthService()->getStorage()->write($user);
+                    $this->getAuthService()->getStorage()->setAuthenticationExpirationTime();
 
                     $this->redirect()->toRoute(self::SUCCESS_URL);
                 }
@@ -189,13 +194,33 @@ class AuthController extends AbstractActionController {
         ));
     }
 
+//    public function logoutAction() {
+//
+//        $this->getAuthStorage()->forgetMe();
+//        $this->getAuthService()->clearIdentity();
+//
+//        $this->flashmessenger()->addMessage("You've been logged out");
+//        return $this->redirect()->toRoute('login');
+//    }
+
     public function logoutAction() {
 
+        $this->getAuthStorage()->clearAuthenticationExpirationTime();
         $this->getAuthStorage()->forgetMe();
         $this->getAuthService()->clearIdentity();
 
         $this->flashmessenger()->addMessage("You've been logged out");
         return $this->redirect()->toRoute('login');
+
+//        /** @var AuthSessionStorage $authStorage */
+//        $authStorage = $e->getApplication()->getServiceManager()->get('AuthSessionStorage');
+//        $authStorage->clearAuthenticationExpirationTime();
+//
+//        $this->getAuthStorage()->forgetMe();
+//        $this->getAuthService()->clearIdentity();
+//
+//        $this->flashmessenger()->addMessage("You've been logged out");
+//        return $this->redirect()->toRoute('login');
     }
 
 }

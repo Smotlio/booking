@@ -113,7 +113,7 @@ return array(
         ),
         'aliases' => array(
             'translator' => 'MvcTranslator',
-            'Zend\Authentication\AuthenticationService' => 'AuthService',
+            'Zend\Authentication\AuthenticationService' => 'AppAuthService',
         ),
     ),
 
